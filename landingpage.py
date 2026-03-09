@@ -4,6 +4,9 @@ st.set_page_config(
     page_title="Burbio",
     layout="centered",
 )
+#Button
+if st.button("Form"):
+    st.switch_page("pages/formpage.py")
 
 # Logo
 col1, col2, col3 = st.columns([1, 2, 1])
