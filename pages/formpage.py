@@ -13,6 +13,24 @@ with st.form("verification_form"):
     name = st.text_input("Name", placeholder="Jane Doe")
     email = st.text_input("Email", placeholder="jane@university.edu")
     org = st.text_input("Organization/University", placeholder="Georgetown University")
+    
+    st.markdown(
+        """
+        <div style="
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 130px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        ">
+            <strong>User Agreement</strong>
+            <p style="font-size: 14px;">
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
     submit = st.form_submit_button("Submit Request")
 
 # 2. Handle submission and validation
