@@ -1,51 +1,53 @@
 import streamlit as st
-import boto3
 import pandas as pd
+import requests
 from io import StringIO
+from urllib.parse import quote
 
 st.set_page_config(page_title="Burbio Data Access", page_icon="📊", layout="centered")
 
 # ─────────────────────────────────────────────
-# AWS S3 CONFIGURATION
+# SUPABASE CONFIGURATION
 # Credentials are loaded securely from .streamlit/secrets.toml
 # Never hardcode keys in this file!
 # ─────────────────────────────────────────────
-AWS_ACCESS_KEY_ID     = st.secrets["aws"]["access_key_id"]
-AWS_SECRET_ACCESS_KEY = st.secrets["aws"]["secret_access_key"]
-AWS_REGION            = st.secrets["aws"]["region"]
-S3_BUCKET_NAME        = st.secrets["aws"]["bucket_name"]
+SUPABASE_URL = st.secrets["supabase"]["project_url"]
+SUPABASE_KEY = st.secrets["supabase"]["anon_key"]
+BUCKET_NAME  = st.secrets["supabase"]["bucket_name"]
 
-# The exact filename as it appears in the S3 bucket
+# The exact filenames as they appear in the Supabase Storage bucket
 DATA_FILES = {
     "Combined School Data": "combined_data.csv",
 }
 # ─────────────────────────────────────────────
 
 
-@st.cache_resource
-def get_s3_client():
-    """Create and cache the S3 client so we don't reconnect on every interaction."""
-    return boto3.client(
-        "s3",
-        region_name=AWS_REGION,
-        aws_access_key_id=AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-    )
+@st.cache_data(ttl=600)
+def load_csv_from_supabase(file_name: str) -> pd.DataFrame:
+    """Fetch a CSV file from Supabase Storage (private bucket) and return it as a DataFrame."""
 
+    encoded_bucket = quote(BUCKET_NAME)
+    encoded_file = quote(file_name)
 
-def load_csv_from_s3(bucket: str, key: str) -> pd.DataFrame:
-    """Fetch a CSV file from S3 and return it as a DataFrame."""
-    s3 = get_s3_client()
-    response = s3.get_object(Bucket=bucket, Key=key)
-    content = response["Body"].read().decode("utf-8")
-    return pd.read_csv(StringIO(content))
+    url = f"{SUPABASE_URL}/storage/v1/object/authenticated/{encoded_bucket}/{encoded_file}"
+
+    headers = {
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "apikey": SUPABASE_KEY,
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        raise Exception(f"Supabase returned status {response.status_code}: {response.text}")
+
+    return pd.read_csv(StringIO(response.text))
 
 
 # ─────────────────────────────────────────────
 # PAGE UI
 # ─────────────────────────────────────────────
 
-# Logo (same pattern as landingpage.py)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.image("burbio_logo.png", use_container_width=True)
@@ -57,21 +59,18 @@ st.markdown(
     "Access to these files is provided for approved researchers only."
 )
 
-# Dataset selector
 selected_label = st.selectbox("Choose a dataset", list(DATA_FILES.keys()))
 selected_file  = DATA_FILES[selected_label]
 
-# Load & display button
 if st.button("Load Dataset"):
-    with st.spinner(f"Fetching **{selected_label}** from S3..."):
+    with st.spinner(f"Fetching **{selected_label}** from Supabase..."):
         try:
-            df = load_csv_from_s3(S3_BUCKET_NAME, selected_file)
+            df = load_csv_from_supabase(selected_file)
 
             st.success(f"Loaded {len(df):,} rows and {len(df.columns)} columns.")
             st.subheader("Preview (first 100 rows)")
             st.dataframe(df.head(100), use_container_width=True)
 
-            # Download button — lets user save the full CSV locally
             csv_bytes = df.to_csv(index=False).encode("utf-8")
             st.download_button(
                 label="⬇️ Download full CSV",
@@ -81,5 +80,5 @@ if st.button("Load Dataset"):
             )
 
         except Exception as e:
-            st.error("Could not load the dataset. Check your AWS credentials and bucket configuration.")
+            st.error("Could not load the dataset. Check your Supabase credentials and bucket configuration.")
             st.info(f"Details: {e}")
