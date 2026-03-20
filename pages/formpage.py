@@ -8,6 +8,7 @@ st.set_page_config(page_title="Burbio Verification", page_icon="🔐")
 st.title("Burbio Product Access Verification")
 st.markdown("Please fill out this form to request access to Burbio products. We will review your request and get back to you shortly.")
 
+agreed = st.checkbox("I have read and agree to the Data Agreement.", key="external_agree")
 # 1. Create the form with the required input fields
 with st.form("verification_form"):
     name = st.text_input("Name", placeholder="Jane Doe")
@@ -31,7 +32,12 @@ with st.form("verification_form"):
         unsafe_allow_html=True
     )
 
-    submit = st.form_submit_button("Submit Request")
+
+    submit = st.form_submit_button(
+        "Submit Request", 
+        disabled=not agreed, 
+        type="primary"
+    )
 
 # 2. Handle submission and validation
 if submit:

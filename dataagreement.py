@@ -1,95 +1,60 @@
-#data areement form 
-#checkmark logic 
-
 import streamlit as st 
-import streamlit.components.v1 as components 
 
-
-#two flags (scroll + checkbox)
-if "has_scrolled" not in st.session_state: 
-    st.session_state.has_scrolled = False #true oncde user scrolls to bottom 
-
+# 1. Initialize session state flag
 if "has_agreed" not in st.session_state: 
-    st.session_state.has_agreed = False #true once checkbox checked off and submitted 
+    st.session_state.has_agreed = False 
 
-#agreement text // need to add once we get this  
+# 2. Agreement text
 AGREEMENT_TEXT = """ 
-[insert agreement text]
+DATA USE AND PRIVACY AGREEMENT
+-------------------------------
+1. SCOPE OF USE:
+The data provided through this portal is for internal research purposes only. 
 
-""".strip() #for clean formatting 
+2. CONFIDENTIALITY:
+The user agrees to maintain the confidentiality of all sensitive information.
 
-#Note: Remove this section and its dependent conditionals if incompatible with pop-up box
-#scroll-track component 
-#using html + js
-scroll_component_html = f"""
-<div id="agreement-box" style="
-    height: 220px;
-    overflow-y: scroll;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 1rem 1.2rem;
-    font-size: 0.85rem;
-    line-height: 1.7;
-    background: #f9f9f9;
-    color: #333;
-    white-space: pre-wrap;
-    font-family: monospace;
-">
-{AGREEMENT_TEXT}
-</div>
- 
-<p id="scroll-hint" style="color: #e07b00; font-size:0.8rem; margin-top:0.4rem;">
-  ↕ Scroll to the bottom to continue.
-</p>
- 
-<script>
-  const box  = document.getElementById("agreement-box");
-  const hint = document.getElementById("scroll-hint");
- 
-  box.addEventListener("scroll", function () {{
-    // Check if user has reached the bottom (within 5px tolerance)
-    const atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 5;
- 
-    if (atBottom) {{
-      hint.textContent = "✔ Agreement fully read.";
-      hint.style.color = "#2a7a2a";
- 
-      // Send a message to the Streamlit parent frame
-      window.parent.postMessage({{
-        type: "streamlit:setComponentValue",
-        value: true
-      }}, "*");
-    }}
-  }});
-</script>
-"""
-scrolled = components.html(scroll_component_html, height=290)
+3. SECURITY:
+The user is responsible for ensuring the data is stored on secure systems.
 
-#scrolled stays true once scrolled
-if scrolled:
-    st.session_state.has_scrolled = True
+[Insert additional agreement text here...]
+""".strip()
 
+st.title("Data Request Form")
 
-#checkmark box 
+# 3. The Agreement Box 
+# st.text_area creates a scrollable box by default. 
+# Setting 'disabled=True' makes it read-only.
+st.text_area(
+    label="Please review the terms below:",
+    value=AGREEMENT_TEXT,
+    height=250,
+    disabled=True
+)
+
+# 4. Checkmark Logic
+# Always visible and enabled.
 agreed = st.checkbox( 
     "I have read and agree to the Data Agreement.",
-    disabled = not st.session_state.has_scrolled, 
-    keys= "Agreement Checkbox"
+    key="agreement_checkbox" 
 )
 
-#submit button 
+# 5. Submit button 
+# Only becomes clickable once the checkbox above is checked.
 submitted = st.button ( 
-    "Submit and Request File"
+    "Submit and Request File",
     disabled=not agreed, 
-    type = "primary"
+    type="primary"
 )
 
-if submitted and agreed: 
+# 6. Handling the submission
+if submitted: 
     st.session_state.has_agreed = True 
 
-#confirmation after
+# 7. Confirmation after submission
 if st.session_state.has_agreed: 
-    st.success("Agreement accepted")
+    st.success("✅ Agreement accepted. Your request has been recorded.")
+    # Optional: Add a download button or next steps here
 
 
 
