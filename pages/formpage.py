@@ -11,9 +11,9 @@ st.set_page_config(page_title="Burbio Verification", page_icon="🔐")
 # Configuration — update these values before deploying
 # ---------------------------------------------------------------------------
 
-SENDER_EMAIL  = "grahamwierzbicki@gmail.com"
-APP_PASSWORD  = "iwzgpzwcqscarfhs"
-RECIPIENT     = "grahamwierzbicki@gmail.com"
+SENDER_EMAIL  = "jadenbobb03@gmail.com"
+APP_PASSWORD  = "emym pzaj pvyi oldi"
+RECIPIENT     = "jadenbobb03@gmail.com"
 ACCESS_LINK   = "https://your-real-access-link.com"   # <-- replace with real link
 PUBLIC_URL    = "http://localhost:8501"                # <-- replace with deployed app URL
 
