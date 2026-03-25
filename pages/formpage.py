@@ -152,7 +152,11 @@ with st.form("verification_form"):
         ">
             <strong>User Agreement</strong>
             <p style="font-size: 14px;">
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+            This Data Use Agreement (“Agreement”) is entered into as of [Date] by and between [Data Provider Name] (“Provider”) and [Data Recipient Name] (“Recipient”). The Provider agrees to provide certain data (“Data”) to the Recipient solely for the purpose of [describe purpose, such as research, analytics, or internal business use]. The Data includes [describe the dataset, such as customer records, anonymized logs, or survey data]. The Recipient agrees to use the Data only for the stated purpose and not for any unauthorized use, and to comply with all applicable laws and regulations.
+
+The Recipient shall implement appropriate administrative, technical, and physical safeguards to protect the Data from unauthorized access, disclosure, or misuse, and shall promptly notify the Provider of any known or suspected data breach. The Data shall be treated as confidential, and the Recipient shall not disclose it to any third party without the prior written consent of the Provider.
+
+The Recipient agrees to comply with all applicable data protection and privacy laws relevant to the handling of the Data. This Agreement shall commence on [Start Date] and remain in effect until [End Date], unless terminated earlier by either party upon [X days] written notice. Upon termination of this Agreement, the Recipient agrees to return or securely destroy all copies of the Data and certify such destruction if requested.
         </div>
         """,
         unsafe_allow_html=True
