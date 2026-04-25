@@ -15,7 +15,7 @@ SENDER_EMAIL  = "jadenbobb03@gmail.com"
 APP_PASSWORD  = "emym pzaj pvyi oldi"
 RECIPIENT     = "jadenbobb03@gmail.com"
 ACCESS_LINK   = "https://your-real-access-link.com"   # <-- replace with real link
-PUBLIC_URL    = "http://localhost:8501"                # <-- replace with deployed app URL
+PUBLIC_URL    = "http://localhost:8599"                # <-- replace with deployed app URL
 
 
 # ---------------------------------------------------------------------------
@@ -44,85 +44,10 @@ def send_email(to: str, subject: str, html: str, plain: str) -> None:
 def make_action_link(action: str, email: str, name: str) -> str:
     """Build an approve/deny URL pointing to the *public* deployed app."""
     params = urllib.parse.urlencode({"email": email, "name": name})
-    return f"{PUBLIC_URL}/?{action}=1&{params}"
+    return f"{PUBLIC_URL}/adminaction?{action}=1&{params}"
 
 
-# ---------------------------------------------------------------------------
-# Admin action handler  (runs before the form so the page renders cleanly)
-# ---------------------------------------------------------------------------
 
-params = st.query_params
-
-# Guard: only process each action once per session
-if "action_handled" not in st.session_state:
-    st.session_state.action_handled = False
-
-if not st.session_state.action_handled:
-    action = None
-    if "approve" in params:
-        action = "approve"
-    elif "deny" in params:
-        action = "deny"
-
-    if action and "email" in params and "name" in params:
-        requester_email = params["email"]
-        requester_name  = params["name"]
-
-        if action == "approve":
-            subject = "Burbio Access Approved ✅"
-            plain   = (
-                f"Hi {requester_name},\n\n"
-                f"Your request to access Burbio has been approved!\n"
-                f"Click the link below to get started:\n{ACCESS_LINK}\n\n"
-                "Thank you."
-            )
-            html = f"""
-            <html><body>
-              <h2>Access Approved ✅</h2>
-              <p>Hi {requester_name},</p>
-              <p>Your request to access Burbio has been approved!</p>
-              <p>
-                <a href="{ACCESS_LINK}"
-                   style="display:inline-block;padding:10px 20px;font-size:16px;
-                          color:white;background:#28a745;text-decoration:none;
-                          border-radius:5px;">
-                  Access Burbio
-                </a>
-              </p>
-              <p>Thank you.</p>
-            </body></html>
-            """
-            admin_msg = f"✅ You have **approved** access for **{requester_name}** ({requester_email}). They have been emailed with the access link."
-
-        else:  # deny
-            subject = "Burbio Access Request Denied"
-            plain   = (
-                f"Hi {requester_name},\n\n"
-                "Unfortunately your request to access Burbio has been denied.\n"
-                "If you have questions, please reply to this email.\n\n"
-                "Thank you."
-            )
-            html = f"""
-            <html><body>
-              <h2>Access Denied</h2>
-              <p>Hi {requester_name},</p>
-              <p>Unfortunately your request to access Burbio has been denied.</p>
-              <p>If you have questions, please reply to this email.</p>
-              <p>Thank you.</p>
-            </body></html>
-            """
-            admin_msg = f"❌ You have **denied** access for **{requester_name}** ({requester_email}). They have been notified."
-
-        try:
-            send_email(requester_email, subject, html, plain)
-            st.success(admin_msg)
-        except Exception as e:
-            st.error(f"Error sending notification email: {e}")
-
-        # Mark handled so a page refresh doesn't resend
-        st.session_state.action_handled = True
-        # Clear query params so the URL looks clean
-        st.query_params.clear()
 
 # ---------------------------------------------------------------------------
 # Request form
