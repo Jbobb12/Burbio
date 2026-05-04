@@ -44,7 +44,7 @@ def send_email(to: str, subject: str, html: str, plain: str) -> None:
 def make_action_link(action: str, email: str, name: str) -> str:
     """Build an approve/deny URL pointing to the *public* deployed app."""
     params = urllib.parse.urlencode({"email": email, "name": name})
-    return f"{PUBLIC_URL}/adminaction?{action}=1&{params}"
+    return f"{PUBLIC_URL}/Administrative_Functions?{action}=1&{params}"
 
 
 
@@ -53,10 +53,10 @@ def make_action_link(action: str, email: str, name: str) -> str:
 # Request form
 # ---------------------------------------------------------------------------
 
-st.title("Burbio Product Access Verification")
+st.title("Burbio COVID School Opening Data Access Request")
 st.markdown(
-    "Please fill out this form to request access to Burbio products. "
-    "We will review your request and get back to you shortly."
+    "Please fill out this form to request access to Burbio datasets. "
+    "We will review your request and get back to you within the next five business days."
 )
 
 agreed = st.checkbox("I have read and agree to the Data Agreement.", key="external_agree")
@@ -67,25 +67,38 @@ with st.form("verification_form"):
     org = st.text_input("Organization/University", placeholder="Georgetown University")
     
     st.markdown(
-        """
-        <div style="
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 130px;
-            overflow-y: scroll;
-            margin-bottom: 10px;
-        ">
-            <strong>User Agreement</strong>
-            <p style="font-size: 14px;">
-            This Data Use Agreement (“Agreement”) is entered into as of [Date] by and between [Data Provider Name] (“Provider”) and [Data Recipient Name] (“Recipient”). The Provider agrees to provide certain data (“Data”) to the Recipient solely for the purpose of [describe purpose, such as research, analytics, or internal business use]. The Data includes [describe the dataset, such as customer records, anonymized logs, or survey data]. The Recipient agrees to use the Data only for the stated purpose and not for any unauthorized use, and to comply with all applicable laws and regulations.
-
-The Recipient shall implement appropriate administrative, technical, and physical safeguards to protect the Data from unauthorized access, disclosure, or misuse, and shall promptly notify the Provider of any known or suspected data breach. The Data shall be treated as confidential, and the Recipient shall not disclose it to any third party without the prior written consent of the Provider.
-
-The Recipient agrees to comply with all applicable data protection and privacy laws relevant to the handling of the Data. This Agreement shall commence on [Start Date] and remain in effect until [End Date], unless terminated earlier by either party upon [X days] written notice. Upon termination of this Agreement, the Recipient agrees to return or securely destroy all copies of the Data and certify such destruction if requested.
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    """
+    <div style="
+        border: 1px solid #ccc;
+        padding: 10px;
+        height: 130px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+    ">
+        <strong>Burbio School Opening Tracker – Terms of Use</strong>
+        <p style="font-size: 14px;">
+        The Burbio School Opening Tracker ("Data") is made available by Burbio, Inc. ("Burbio") to support academic research, journalism, and public policy analysis. By accessing or using the Data, you agree to the following terms:
+        <br><br>
+        <strong>1. Permitted Use:</strong> You may use the Data for non-commercial purposes, including academic research, journalism and reporting, public policy analysis, and other non-commercial, informational uses.
+        <br><br>
+        <strong>2. Prohibited Use:</strong> You may not use the Data for any commercial purpose, including incorporation into products, services, or paid reports. You may not sell, license, sublicense, or redistribute the Data as a standalone dataset. You may not use the Data to train, fine-tune, or enhance any commercial artificial intelligence or machine learning models. You may not systematically extract or replicate the Data to create a competing database or service.
+        <br><br>
+        <strong>3. Attribution:</strong> Any public use of the Data must include clear attribution to Burbio, for example: "Source: Burbio School Opening Tracker". For digital uses, attribution should include a link to Burbio where reasonably possible.
+        <br><br>
+        <strong>4. Derivative Works:</strong> You may create analyses, reports, or other derivative works using the Data, provided that such use remains non-commercial and proper attribution to Burbio is included.
+        <br><br>
+        <strong>5. No Misrepresentation:</strong> You may not represent the Data as your own, or use or modify the Data in a way that is misleading or misrepresents Burbio's work.
+        <br><br>
+        <strong>6. No Warranty:</strong> The Data is provided "as is" without warranty of any kind, express or implied, including accuracy or completeness. Burbio disclaims all liability for any decisions or actions taken based on the Data.
+        <br><br>
+        <strong>7. Right to Revoke:</strong> Burbio reserves the right to revoke or restrict access to the Data at any time for violation of these terms.
+        <br><br>
+        <strong>8. Commercial Use &amp; Licensing:</strong> For commercial use, licensing, or partnership opportunities, please contact Burbio at: [insert email]
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
     submit = st.form_submit_button(
@@ -149,7 +162,7 @@ if submit:
         try:
             send_email(
                 to      = RECIPIENT,
-                subject = f"[Burbio Request] New Access Verification from {name}",
+                subject = f"ACCESS Request: COVID School Opening Data from {name}",
                 html    = html_body,
                 plain   = plain_body,
             )

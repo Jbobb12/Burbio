@@ -5,19 +5,53 @@ if "has_agreed" not in st.session_state:
     st.session_state.has_agreed = False 
 
 # 2. Agreement text
-AGREEMENT_TEXT = """ 
-DATA USE AND PRIVACY AGREEMENT
--------------------------------
-1. SCOPE OF USE:
-The data provided through this portal is for internal research purposes only. 
+AGREEMENT_TEXT = """
+BURBIO SCHOOL OPENING TRACKER – TERMS OF USE
+---------------------------------------------
+The Burbio School Opening Tracker ("Data") is made available by Burbio, Inc.
+("Burbio") to support academic research, journalism, and public policy analysis.
 
-2. CONFIDENTIALITY:
-The user agrees to maintain the confidentiality of all sensitive information.
+By accessing or using the Data, you agree to the following terms:
 
-3. SECURITY:
-The user is responsible for ensuring the data is stored on secure systems.
+1. PERMITTED USE:
+You may use the Data for non-commercial purposes, including academic research,
+journalism and reporting, public policy analysis, and other non-commercial,
+informational uses.
 
-[Insert additional agreement text here...]
+2. PROHIBITED USE:
+You may not use the Data for any commercial purpose, including incorporation
+into products, services, or paid reports. You may not sell, license, sublicense,
+or redistribute the Data as a standalone dataset. You may not use the Data to
+train, fine-tune, or enhance any commercial artificial intelligence or machine
+learning models. You may not systematically extract or replicate the Data to
+create a competing database or service.
+
+3. ATTRIBUTION:
+Any public use of the Data must include clear attribution to Burbio, for example:
+"Source: Burbio School Opening Tracker". For digital uses, attribution should
+include a link to Burbio where reasonably possible.
+
+4. DERIVATIVE WORKS:
+You may create analyses, reports, or other derivative works using the Data,
+provided that such use remains non-commercial and proper attribution to Burbio
+is included.
+
+5. NO MISREPRESENTATION:
+You may not represent the Data as your own, or use or modify the Data in a way
+that is misleading or misrepresents Burbio's work.
+
+6. NO WARRANTY:
+The Data is provided "as is" without warranty of any kind, express or implied,
+including accuracy or completeness. Burbio disclaims all liability for any
+decisions or actions taken based on the Data.
+
+7. RIGHT TO REVOKE:
+Burbio reserves the right to revoke or restrict access to the Data at any time
+for violation of these terms.
+
+8. COMMERCIAL USE & LICENSING:
+For commercial use, licensing, or partnership opportunities, please contact
+Burbio at: [insert email]
 """.strip()
 
 st.title("Data Request Form")

@@ -92,9 +92,9 @@ if not st.session_state.action_handled:
             token = create_download_token(requester_email)
 
             if token:
-                download_link = f"{PUBLIC_URL}/downloadpage?token={token}"
+                download_link = f"{PUBLIC_URL}/Download_Files?token={token}"
 
-                subject = "Burbio Access Approved ✅"
+                subject = "Burbio COVID School Opening Data Access Approved"
                 plain   = (
                     f"Hi {requester_name},\n\n"
                     f"Your request to access Burbio has been approved!\n"
@@ -130,7 +130,7 @@ if not st.session_state.action_handled:
                     st.exception(e)
 
         else:  # deny
-            subject = "Burbio Access Request Denied"
+            subject = "Burbio COVID School Opening Data Access Approved"
             plain   = (
                 f"Hi {requester_name},\n\n"
                 "Unfortunately your request to access Burbio has been denied.\n"

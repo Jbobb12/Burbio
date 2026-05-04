@@ -26,18 +26,17 @@ HEADERS = {
 }
 
 ALL_FILES = [
-    "closures_cleaned_Final.csv",
-    "combined_data.csv",
-    "disruptions_cleaned_Final.csv",
-    "v2_2020-2021_Burbio_Tracked_Districts_complete_SY.csv",
-    "weekly_merged.csv",
+    "2020_2021_DistrictLevel_LearningModes.csv",
+    "2020_2022_CountyLevel_LearningModes.csv",
+    "2021_2022_DistrictLevel_Closures.csv",
+    "2021_DistrictLevel_Closures.csv",
+    "2021_DistrictLevel_LearningModes.csv",
 ]
 
 FORMATS = {
     "CSV":   {"ext": ".csv",   "mime": "text/csv"},
     "JSON":  {"ext": ".json",  "mime": "application/json"},
     "Excel": {"ext": ".xlsx",  "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
-    "TSV":   {"ext": ".tsv",   "mime": "text/tab-separated-values"},
 }
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -68,12 +67,6 @@ def rows_to_bytes(rows: list[dict], fmt: str) -> bytes:
         writer.writerows(rows)
         return buf.getvalue().encode("utf-8")
 
-    if fmt == "TSV":
-        buf = io.StringIO()
-        writer = csv.DictWriter(buf, fieldnames=rows[0].keys() if rows else [], delimiter="\t", extrasaction='ignore')
-        writer.writeheader()
-        writer.writerows(rows)
-        return buf.getvalue().encode("utf-8")
 
     if fmt == "JSON":
         return json.dumps(rows, indent=2).encode("utf-8")
