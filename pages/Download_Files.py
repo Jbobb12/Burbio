@@ -55,7 +55,7 @@ def fetch_file(file_id: str) -> str:
     )
     resp = requests.get(url, headers=HEADERS, timeout=60)
     resp.raise_for_status()
-    return resp.text
+    return resp.content.decode("utf-8", errors="replace")
 
 
 def rows_to_bytes(rows: list[dict], fmt: str) -> bytes:
