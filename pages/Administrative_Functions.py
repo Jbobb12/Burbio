@@ -12,9 +12,9 @@ st.set_page_config(page_title="Burbio Admin", page_icon="🔐")
 # Configuration
 # ---------------------------------------------------------------------------
 
-SENDER_EMAIL  = "jadenbobb03@gmail.com"
+SENDER_EMAIL  = st.secrets["email"]["sender_email"]
 APP_PASSWORD  = st.secrets["email"]["app_password"]
-PUBLIC_URL    = "http://localhost:8599"
+PUBLIC_URL    = st.secrets["email"]["public_url"]
 
 SUPABASE_URL  = st.secrets["supabase"]["project_url"]
 SUPABASE_KEY  = st.secrets["supabase"]["anon_key"]
